@@ -8,6 +8,14 @@ export const NewOrder = () => {
 const [userData,setUserData] = useState([])
 const [formData,setFormData] = useState([]);
 
+const handle = (e)=>{
+  const {name , value} = e.target
+  setFormData({
+    ...formData,
+   [name] : value,
+  })
+}
+
 const handleForm = ()=>{
   fetch("http://localhost:8080/orders",{
     method : "POST",
@@ -15,7 +23,8 @@ const handleForm = ()=>{
              "Content-Type": "application/json",
            },
            body: JSON.stringify(formData)
-})}
+}).then(()=>{getData()})
+}
   useEffect(()=>{
     getData()
   },[]);
@@ -33,7 +42,7 @@ const handleForm = ()=>{
     <div>
       <div className="form">
         <input
-          onChange={(e)=>{setFormData(e.target.value)}}
+          onChange={handle}
           className="new-problem"
           type="text"
           name="problem"
@@ -49,7 +58,7 @@ const handleForm = ()=>{
           readOnly
         />
         <input
-          onChange={(e)=>{setFormData(e.target.value)}}
+          onChange={handle}
           className="brand"
           type="text"
           name="brand"
